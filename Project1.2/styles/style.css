@@ -1,0 +1,130 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    width: 100vw;
+    height: 100vh;
+
+    --window-height: 1.5rem;
+    --mobile-width: 25.75rem;
+    --button-width: 5rem;
+    --selected-background: cornflowerblue;
+    --todo-colour: #b4b4b4;
+    --completed-colour: grey;
+    --knob-colour: skyblue;
+    --toggle-height: 1.625rem;
+    --relative-knob-size: .2;
+    --toggle-margin: calc(var(--toggle-height)* var(--relative-knob-size));
+    --half-margin: calc(var(--toggle-margin)/2);
+}
+
+body {
+    width: 100%;
+    max-width: var(--mobile-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    width: var(--button-width);
+    margin: 0;
+    padding: 3px;
+}
+
+button, input {
+    height: var(--window-height);
+}
+
+input {
+    flex: 1;
+}
+
+todo-list {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1;
+}
+
+todo-item {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    margin: 0.2rem;
+    padding: 0.5rem;
+}
+
+todoText {
+    flex: 1;
+}
+
+todo-item:before {
+    content: "";
+    transition: background 0.5s cubic-bezier(0, 0.95, 0.37, 1.61);
+    will-change: background;
+}
+
+todo-item[area-selected="true"]:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.7rem;
+    width: 1rem;
+
+    background: var(--selected-background);
+}
+
+todo-item[area-hidden="false"] {
+    display:flex;
+}
+
+todo-item[area-hidden="true"] {
+    display:none;
+}
+
+toggle-button {
+    height: var(--toggle-height);
+    width: calc(var(--toggle-height) * 2);
+    border-radius: var(--toggle-height);
+    align-self: center;
+    position: relative;
+}
+
+toggle-button[is-on="false"]{
+    background-color: var(--todo-colour);
+}
+
+toggle-button[is-on="true"]{
+    background-color: var(--completed-colour);
+}
+
+toggle-button:before, toggle-button:after {
+    content: "";
+    background-color: var(--knob-colour);
+    height: calc(var(--toggle-height) - var(--toggle-margin));
+    width: calc(var(--toggle-height) - var(--toggle-margin));
+    border-radius: var(--toggle-height);
+    position: absolute;
+    align-self: center;
+    margin-bottom: var(--half-margin);
+    margin-top: var(--half-margin);
+    display: none;
+}
+
+toggle-button[is-on="false"]:before {
+    margin-left: var(--half-margin);
+    display: flex;
+}
+
+toggle-button[is-on="true"]:after {
+    margin-left: calc(var(--toggle-height) + var(--half-margin));
+    display: flex;
+}
+
