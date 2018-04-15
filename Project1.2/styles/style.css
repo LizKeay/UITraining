@@ -7,13 +7,15 @@ html, body {
 
     --window-height: 1.5rem;
     --mobile-width: 25.75rem;
-    --button-width: 5rem;
+    --button-width: 60rem;
     --selected-background: cornflowerblue;
     --todo-colour: #b4b4b4;
-    --completed-colour: grey;
-    --knob-colour: skyblue;
+    --completed-colour: #8f8f8f;
+    --knob-colour: #c3dfed;
     --toggle-height: 1.625rem;
-    --relative-knob-size: .2;
+    --toggle-width: calc(var(--toggle-height) * 2);
+    --relative-knob-percentage: 30;
+    --relative-knob-size: calc(var(--relative-knob-percentage)/100);
     --toggle-margin: calc(var(--toggle-height)* var(--relative-knob-size));
     --half-margin: calc(var(--toggle-margin)/2);
 }
@@ -89,42 +91,42 @@ todo-item[area-hidden="true"] {
     display:none;
 }
 
-toggle-button {
-    height: var(--toggle-height);
-    width: calc(var(--toggle-height) * 2);
-    border-radius: var(--toggle-height);
-    align-self: center;
-    position: relative;
-}
-
-toggle-button[is-on="false"]{
-    background-color: var(--todo-colour);
-}
-
-toggle-button[is-on="true"]{
-    background-color: var(--completed-colour);
-}
-
-toggle-button:before, toggle-button:after {
-    content: "";
-    background-color: var(--knob-colour);
-    height: calc(var(--toggle-height) - var(--toggle-margin));
-    width: calc(var(--toggle-height) - var(--toggle-margin));
-    border-radius: var(--toggle-height);
-    position: absolute;
-    align-self: center;
-    margin-bottom: var(--half-margin);
-    margin-top: var(--half-margin);
+.cb {
     display: none;
 }
 
-toggle-button[is-on="false"]:before {
-    margin-left: var(--half-margin);
-    display: flex;
+.tgl-lbl {
+    outline: 0;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    cursor: pointer;
+    background: var(--todo-colour);
+    border-radius: 2em;
 }
 
-toggle-button[is-on="true"]:after {
-    margin-left: calc(var(--toggle-height) + var(--half-margin));
-    display: flex;
+/*create knob*/
+.tgl-lbl:before
+{
+    position: relative;
+    display: block;
+    content: "";
+    height: calc(var(--toggle-height) - var(--toggle-margin));
+    width: calc(var(--toggle-height) - var(--toggle-margin));
+    align-self: center;
+    margin-bottom: var(--half-margin);
+    margin-top: var(--half-margin);
+    border-radius: 50%;
+    background: var(--knob-colour);
+    left: calc(var(--toggle-margin)/2);
+    transition: left .2s cubic-bezier(.65,.01,.43,1.8);
+}
+
+.cb:checked + .tgl-lbl {
+    background: var(--completed-colour);
+}
+
+/* move button to the right*/
+.cb:checked + .tgl-lbl:before {
+    left: calc((var(--toggle-width) + var(--toggle-margin))/2);
 }
 

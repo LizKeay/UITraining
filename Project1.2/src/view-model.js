@@ -15,16 +15,16 @@ export class ViewModel {
         this.btnDelete.removeEventListener(this.btnDeleteClickHandler);
         this.edtFilter.removeEventListener("change", this.edtFilterChangeHandler);
 
-        delete this.btnAdd;
-        delete this.btnDelete;
-        delete this.edtFilter;
-        delete this.todoList;
+        this.btnAdd = null;
+        this.btnDelete = null;
+        this.edtFilter = null;
+        this.todoList = null;
     }
 
     btnAddClick(){
         const todoText = prompt("What must I do?", "I must");
         if (todoText != undefined) {
-         this.todoList.addNewItem(todoText);
+          this.todoList.addNewItem(todoText);
         }
     }
 

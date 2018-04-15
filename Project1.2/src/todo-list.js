@@ -5,7 +5,7 @@ export class TodoList extends HTMLElement {
             super();
             this.storageKey = "ToDoList";
             this.clickHandler = this._click.bind(this);
-
+            this._counter = 0;
         }
         connectedCallback() {
             this.addEventListener("click", this.clickHandler);
@@ -29,17 +29,19 @@ export class TodoList extends HTMLElement {
 
         addNewItem(todoText)
         {
-            const item = new TodoItem(todoText);
+            const item = new TodoItem(todoText, this._counter);
             this.appendChild(item);
             this.items.push(item);
             localStorage.setItem(this.storageKey, JSON.stringify(this.items));
+            this._counter++;
         }
 
         _addFromStorage(todoText, isComplete) {
-            const item = new TodoItem(todoText, isComplete);
+            const item = new TodoItem(todoText, this._counter, isComplete);
             this.appendChild(item);
             this.items.push(item);
             localStorage.setItem(this.storageKey, JSON.stringify(this.items));
+            this._counter++;
         }
 
         deleteSelectedItems() {
@@ -66,18 +68,24 @@ export class TodoList extends HTMLElement {
         }
 
         _click(event){
-            if (event.target.tagName == "TOGGLE-BUTTON")
+            if (event.target.tagName == "LABEL")
             {
                 let parent = event.target.parentElement;
-                parent.toggleComplete();
+                parent.updateCompleted();
                 localStorage.setItem(this.storageKey, JSON.stringify(this.items));
                 return;
             }
+            if (event.target.tagName == "INPUT")
+            {
+                return;
+            }
+
             const itemTag = "TODO-ITEM";
             if (event.target.parentElement.tagName == itemTag) {
                 event.target.parentElement.toggleSelected();
             }
-            else if (event.target.tagName == itemTag) {
+            else
+                if (event.target.tagName == itemTag) {
                 event.target.toggleSelected();
             }
         }
