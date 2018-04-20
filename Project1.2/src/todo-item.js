@@ -5,17 +5,24 @@ export class TodoItem extends HTMLElement {
         this._text = text;
         this._isSelected = false;
         this._isComplete = isComplete;
-        let template = document.querySelector('#todoItem');
-        let todoContent = document.importNode(template.content, true);
-        todoContent.querySelector('todoText').textContent = text;
-        let cb = todoContent.querySelector('input');
-        cb.id = `cb${index}`;
-        todoContent.querySelector('label').setAttribute("for", `cb${index}`);
-        cb.checked = isComplete;
-        this.appendChild(todoContent);
+        this._index = index;
     }
     connectedCallback() {
-        this.setAttribute("area-hidden", false)
+        this.setAttribute("area-hidden", false);
+        this.hydrate();
+    }
+
+    hydrate()
+    {
+        const templatesImport = document.getElementById('templates');
+        const template = templatesImport.import.getElementById('todoItem');
+        const todoContent = document.importNode(template.content, true);
+        todoContent.querySelector('todoText').textContent = this._text;
+        const cb = todoContent.querySelector('input');
+        cb.checked = this._isComplete;
+        cb.id = `cb${this._index}`;
+        todoContent.querySelector('label').setAttribute("for", `cb${this._index}`);
+        this.appendChild(todoContent);
     }
 
     get isSelected(){

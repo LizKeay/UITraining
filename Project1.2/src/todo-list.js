@@ -21,7 +21,7 @@ export class TodoList extends HTMLElement {
             const todoListString = localStorage.getItem(this.storageKey);
             if (todoListString != undefined) {
                 const todoList = JSON.parse(todoListString);
-                for (let item of todoList) {
+                for (const item of todoList) {
                     this._addFromStorage(item._text, item._isComplete);
                 }
             }
@@ -46,14 +46,14 @@ export class TodoList extends HTMLElement {
 
         deleteSelectedItems() {
             const deleteItems = [];
-            for (let item of this.items) {
+            for (const item of this.items) {
                 if (item.isSelected)
                 {
                     deleteItems.push(item)
                     this.removeChild(item);
                 }
             }
-            for (let itemToDelete of deleteItems) {
+            for (const itemToDelete of deleteItems) {
                 const index = this.items.indexOf(itemToDelete);
                 this.items.splice(index,1);
             }
@@ -70,7 +70,7 @@ export class TodoList extends HTMLElement {
         _click(event){
             if (event.target.tagName == "LABEL")
             {
-                let parent = event.target.parentElement;
+                const parent = event.target.parentElement;
                 parent.updateCompleted();
                 localStorage.setItem(this.storageKey, JSON.stringify(this.items));
                 return;
